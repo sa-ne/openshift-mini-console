@@ -1,0 +1,19 @@
+apiVersion: rbac.authorization.k8s.io/v1
+kind: Role
+metadata:
+  name: openshift-mini-console-sa-role
+  namespace: openshift-mini-console
+rules:
+  - apiGroups:
+      - "*"
+    resources:
+      - clusterversions
+      - infrastructures
+      - machinesets
+      - nodes
+      - routes
+
+    verbs:
+      - get
+      - list
+      - watch

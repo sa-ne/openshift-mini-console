@@ -1,0 +1,107 @@
+<!doctype html>
+<head>
+  <title>OpenShift Mini Console</title>
+  <style>
+    .html, body {
+      font-family: Arial, Helvetica, sans-serif;
+      font-size: 12px;
+    }
+
+    a:link {
+      text-decoration: none;
+      color: #ff5511;
+    }
+
+    a:hover {
+      text-decoration: underline;
+      text-decoration-style: dotted;
+    }
+
+    .column {
+      padding-top: 10px;
+      float: left;
+      width: 25%;
+    }
+
+    .header {
+      border: 1px solid #bbbbbb;
+      background-color: #00a2ff;
+      padding: 10px;
+    }
+
+    .tile {
+      border: 1px solid #bbbbbb;
+      margin-right: 10px;
+      margin-bottom: 10px;
+    }
+
+    .tile-header {
+      background-color: #dddddd;
+      border-bottom: 1px solid #bbbbbb;
+      font-weight: bold;
+      padding: 10px;
+    }
+
+    .tile-header-right {
+      float: right;
+    }
+
+    .tile-content {
+      padding: 10px;
+    }
+  </style>
+</head>
+<body>
+  <div class="header">
+    <div style="font-weight: bold">OpenShift Mini Console</div>
+  </div>
+  <div class="column">
+    <div class="tile">
+      <div class="tile-header">
+        Basic Cluster Information
+        <span class="tile-header-right">
+          <a href="https://{{ consoleroute }}/" target="_blank" rel="noopener noreferrer">
+            Open Console
+          </a>
+        </span>
+      </div>
+      <div class="tile-content">
+        Cluster Name: {{ name }} <br/>
+        Cluster Platform: {{ platform }} <br/>
+        Cluster Region: {{ region }}
+      </div>
+    </div>
+    <div class="tile">
+      <div class="tile-header">
+        Cluster Version Information
+      </div>
+      <div class="tile-content">
+        Version: {{ version }} <br/>
+        Channel: {{ channel }} <br/>
+        Cluster ID: {{ clusterid }}
+      </div>
+    </div>
+  </div>
+  <div class="column">
+    <div class="tile">
+      <div class="tile-header">
+        List of MachineSets
+      </div>
+      <div class="tile-content">
+        {% autoescape false %}
+          {{ machineset_list | replace("\n", "<br/>") }}
+        {% endautoescape %}
+      </div>
+    </div>
+    <div class="tile">
+      <div class="tile-header">
+        List of Nodes
+      </div>
+      <div class="tile-content">
+        {% autoescape false %}
+          {{ node_list | replace("\n", "<br/>") }}
+        {% endautoescape %}
+      </div>
+    </div>
+  </div>
+</body>
