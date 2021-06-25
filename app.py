@@ -3,7 +3,8 @@ from kubernetes import client, config
 
 app = Flask(__name__)
 
-config.load_kube_config()
+#config.load_kube_config()
+config.incluster_config.load_incluster_config()
 crd = client.CustomObjectsApi()
 k8s = client.CoreV1Api()
 
