@@ -56,7 +56,7 @@ export KUBECONFIG=/path/to/kubeconfig
 Finally, start the Flask application by running:
 
 ```console
-$ $ python -m flask run
+$ python -m flask run
  * Environment: production
    WARNING: This is a development server. Do not use it in a production deployment.
    Use a production WSGI server instead.
