@@ -33,7 +33,7 @@ python -m venv env
 Next, activate the virtual environment as follows:
 
 ```console
-env/bin/activate
+source env/bin/activate
 ```
 
 ### Install OMC Required Python Modules in Virtual Environment
