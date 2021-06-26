@@ -1,10 +1,14 @@
+import os
 from flask import Flask, render_template
 from kubernetes import client, config
 
 app = Flask(__name__)
 
-#config.load_kube_config()
-config.incluster_config.load_incluster_config()
+if "KUBECONFIG" in os.environ:
+  config.load_kube_config()
+else:
+  config.incluster_config.load_incluster_config()
+
 crd = client.CustomObjectsApi()
 k8s = client.CoreV1Api()
 

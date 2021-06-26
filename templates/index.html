@@ -2,9 +2,13 @@
 <head>
   <title>OpenShift Mini Console</title>
   <style>
-    .html, body {
+    html, body {
       font-family: Arial, Helvetica, sans-serif;
       font-size: 12px;
+      height: 100%;
+      min-height: 100%;
+      background-color: #eeeeee;
+      margin: 0px;
     }
 
     a:link {
@@ -17,10 +21,27 @@
       text-decoration-style: dotted;
     }
 
+    .container {
+      display: block;
+      margin-left: auto;
+      margin-right: auto;
+      width: 60%;
+      height: 100%;
+      background-color: #ffffff;
+    }
+
+    .container-content {
+      padding: 10px;
+    }
+
     .column {
       padding-top: 10px;
       float: left;
-      width: 25%;
+      width: 50%;
+    }
+
+    .column-left {
+      padding-right: 5px;
     }
 
     .header {
@@ -31,7 +52,15 @@
 
     .tile {
       border: 1px solid #bbbbbb;
-      margin-right: 10px;
+    }
+
+    .tile-left {
+      margin-right: 5px;
+      margin-bottom: 10px;
+    }
+
+    .tile-right {
+      margin-left: 5px;
       margin-bottom: 10px;
     }
 
@@ -52,55 +81,59 @@
   </style>
 </head>
 <body>
-  <div class="header">
-    <div style="font-weight: bold">OpenShift Mini Console</div>
-  </div>
-  <div class="column">
-    <div class="tile">
-      <div class="tile-header">
-        Basic Cluster Information
-        <span class="tile-header-right">
-          <a href="https://{{ consoleroute }}/" target="_blank" rel="noopener noreferrer">
-            Open Console
-          </a>
-        </span>
+  <div class="container">
+    <div class="container-content">
+      <div class="header">
+        <div style="font-weight: bold">OpenShift Mini Console</div>
       </div>
-      <div class="tile-content">
-        Cluster Name: {{ name }} <br/>
-        Cluster Platform: {{ platform }} <br/>
-        Cluster Region: {{ region }}
+      <div class="column">
+        <div class="tile tile-left">
+          <div class="tile-header">
+            Basic Cluster Information
+            <span class="tile-header-right">
+              <a href="https://{{ consoleroute }}/" target="_blank" rel="noopener noreferrer">
+                Open Console
+              </a>
+            </span>
+          </div>
+          <div class="tile-content">
+            Cluster Name: {{ name }} <br/>
+            Cluster Platform: {{ platform }} <br/>
+            Cluster Region: {{ region }}
+          </div>
+        </div>
+        <div class="tile tile-left">
+          <div class="tile-header">
+            Cluster Version Information
+          </div>
+          <div class="tile-content">
+            Version: {{ version }} <br/>
+            Channel: {{ channel }} <br/>
+            Cluster ID: {{ clusterid }}
+          </div>
+        </div>
       </div>
-    </div>
-    <div class="tile">
-      <div class="tile-header">
-        Cluster Version Information
-      </div>
-      <div class="tile-content">
-        Version: {{ version }} <br/>
-        Channel: {{ channel }} <br/>
-        Cluster ID: {{ clusterid }}
-      </div>
-    </div>
-  </div>
-  <div class="column">
-    <div class="tile">
-      <div class="tile-header">
-        List of MachineSets
-      </div>
-      <div class="tile-content">
-        {% autoescape false %}
-          {{ machineset_list | replace("\n", "<br/>") }}
-        {% endautoescape %}
-      </div>
-    </div>
-    <div class="tile">
-      <div class="tile-header">
-        List of Nodes
-      </div>
-      <div class="tile-content">
-        {% autoescape false %}
-          {{ node_list | replace("\n", "<br/>") }}
-        {% endautoescape %}
+      <div class="column">
+        <div class="tile tile-right">
+          <div class="tile-header">
+            List of MachineSets
+          </div>
+          <div class="tile-content">
+            {% autoescape false %}
+              {{ machineset_list | replace("\n", "<br/>") }}
+            {% endautoescape %}
+          </div>
+        </div>
+        <div class="tile tile-right">
+          <div class="tile-header">
+            List of Nodes
+          </div>
+          <div class="tile-content">
+            {% autoescape false %}
+              {{ node_list | replace("\n", "<br/>") }}
+            {% endautoescape %}
+          </div>
+        </div>
       </div>
     </div>
   </div>
