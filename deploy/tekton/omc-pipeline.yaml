@@ -1,0 +1,42 @@
+apiVersion: tekton.dev/v1beta1
+kind: Pipeline
+metadata:
+  name: build-openshift-mini-console
+  namespace: omc-app
+spec:
+  workspaces:
+  - name: shared-workspace
+  params:
+  - name: dockerfile-path
+    type: string
+    description: The path to your Dockerfile
+    default: "Dockerfile"
+  tasks:
+  - name: fetch-repository
+    taskRef:
+      name: git-clone
+      kind: ClusterTask
+    workspaces:
+    - name: output
+      workspace: shared-workspace
+    params:
+    - name: url
+      value: https://github.com/nasx/k8s-example-apps.git
+    - name: revision
+      value: master
+  - name: build-image
+    taskRef:
+      name: buildah
+      kind: ClusterTask
+    runAfter:
+    - fetch-repository
+    workspaces:
+    - name: source
+      workspace: shared-workspace
+    params:
+    - name: TLSVERIFY
+      value: "false"
+    - name: DOCKERFILE
+      value: "$(params.dockerfile-path)"
+    - name: IMAGE
+      value: image-registry.openshift-image-registry.svc:5000/pacman-pipeline/pacman

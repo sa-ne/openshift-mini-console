@@ -1,0 +1,20 @@
+apiVersion: tekton.dev/v1beta1
+kind: PipelineRun
+metadata:
+  generateName: pipelinerun-openshift-mini-console-
+spec:
+  serviceAccountName: pipeline
+  pipelineRef:
+    name: build-openshift-mini-console
+  workspaces:
+  - name: shared-workspace
+    volumeClaimTemplate:
+      spec:
+        accessModes:
+          - ReadWriteOnce
+        resources:
+          requests:
+            storage: 1Gi
+  params:
+  - name: dockerfile-path
+    value: "deploy/tekton/Dockerfile"
