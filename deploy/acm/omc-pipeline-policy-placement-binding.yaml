@@ -1,0 +1,12 @@
+apiVersion: policy.open-cluster-management.io/v1
+kind: PlacementBinding
+metadata:
+  name: omc-pipeline-policy
+placementRef:
+  name: omc-pipeline-policy
+  kind: PlacementRule
+  apiGroup: apps.open-cluster-management.io
+subjects:
+- name: omc-pipeline-hub-config
+  kind: Policy
+  apiGroup: policy.open-cluster-management.io
