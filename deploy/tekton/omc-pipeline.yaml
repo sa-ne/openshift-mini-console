@@ -21,7 +21,7 @@ spec:
       workspace: shared-workspace
     params:
     - name: url
-      value: https://github.com/nasx/k8s-example-apps.git
+      value: https://github.com/sa-ne/openshift-mini-console.git
     - name: revision
       value: master
   - name: build-image
@@ -39,4 +39,4 @@ spec:
     - name: DOCKERFILE
       value: "$(params.dockerfile-path)"
     - name: IMAGE
-      value: image-registry.openshift-image-registry.svc:5000/pacman-pipeline/pacman
+      value: image-registry.openshift-image-registry.svc:5000/omc-app/openshift-mini-console
