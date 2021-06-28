@@ -5,3 +5,6 @@ resources:
   - omc-pipeline-policy-placement-binding.yaml
   - omc-pipeline-policy-placement-rule.yaml
   - omc-pipeline-policy.yaml
+  - omc-app-policy-placement-binding.yaml
+  - omc-app-policy-placement-rule.yaml
+  - omc-app-policy.yaml

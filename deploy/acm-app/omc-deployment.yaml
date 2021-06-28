@@ -1,0 +1,30 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  annotations:
+    image.openshift.io/triggers: '[{"from":{"kind":"ImageStreamTag","name":"openshift-mini-console:latest","namespace":"omc-app"},"fieldPath":"spec.template.spec.containers[?(@.name==\"openshift-mini-console\")].image"}]'
+  labels:
+    app: openshift-mini-console
+    app.kubernetes.io/component: openshift-mini-console
+    app.kubernetes.io/instance: openshift-mini-console
+  name: openshift-mini-console
+  namespace: omc-app
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      deployment: openshift-mini-console
+  strategy: {}
+  template:
+    metadata:
+      labels:
+        deployment: openshift-mini-console
+    spec:
+      serviceAccountName: openshift-mini-console-sa
+      containers:
+      - image: " "
+        name: openshift-mini-console
+        ports:
+        - containerPort: 5000
+          name: flask
+          protocol: TCP

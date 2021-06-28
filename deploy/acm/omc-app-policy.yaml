@@ -1,0 +1,125 @@
+apiVersion: policy.open-cluster-management.io/v1
+kind: Policy
+metadata:
+  name: omc-app-hub-config
+  annotations:
+    policy.open-cluster-management.io/standards: NIST-CSF
+    policy.open-cluster-management.io/categories: PR.IP Information Protection Processes and Procedures
+    policy.open-cluster-management.io/controls: PR.IP-1 Baseline Configuration
+spec:
+  remediationAction: enforce
+  disabled: false
+  policy-templates:
+  - objectDefinition:
+      apiVersion: policy.open-cluster-management.io/v1
+      kind: ConfigurationPolicy
+      metadata:
+        name: omc-app-namespace
+      spec:
+        remediationAction: enforce
+        severity: High
+        object-templates:
+        - complianceType: musthave
+          objectDefinition:
+            apiVersion: v1
+            kind: Namespace
+            metadata:
+              name: omc-app
+            spec: {}
+  - objectDefinition:
+      apiVersion: policy.open-cluster-management.io/v1
+      kind: ConfigurationPolicy
+      metadata:
+        name: omc-app-placementrule
+      spec:
+        remediationAction: enforce
+        severity: High
+        object-templates:
+        - complianceType: musthave
+          objectDefinition:
+            apiVersion: apps.open-cluster-management.io/v1
+            kind: PlacementRule
+            metadata:
+              name: omc-app
+              namespace: omc-app
+            spec:
+              clusterConditions:
+              - status: "True"
+                type: ManagedClusterConditionAvailable
+              clusterSelector: {}
+  - objectDefinition:
+      apiVersion: policy.open-cluster-management.io/v1
+      kind: ConfigurationPolicy
+      metadata:
+        name: omc-app-channel
+      spec:
+        remediationAction: enforce
+        severity: High
+        object-templates:
+        - complianceType: musthave
+          objectDefinition:
+            apiVersion: apps.open-cluster-management.io/v1
+            kind: Channel
+            metadata:
+              name: omc-app-channel
+              namespace: omc-app
+              labels:
+                app.kubernetes.io/name: omc
+            spec:
+              type: GitHub
+              pathname: https://github.com/sa-ne/openshift-mini-console.git
+  - objectDefinition:
+      apiVersion: policy.open-cluster-management.io/v1
+      kind: ConfigurationPolicy
+      metadata:
+        name: omc-app-subscription
+      spec:
+        remediationAction: enforce
+        severity: High
+        object-templates:
+        - complianceType: musthave
+          objectDefinition:
+            apiVersion: apps.open-cluster-management.io/v1
+            kind: Subscription
+            metadata:
+              name: omc-app
+              namespace: omc-app
+              labels:
+                app.kubernetes.io/name: omc-app
+              annotations:
+                  apps.open-cluster-management.io/git-branch: main
+                  apps.open-cluster-management.io/github-path: deploy/acm-app
+                  apps.open-cluster-management.io/reconcile-option: merge
+            spec:
+              channel: omc-app/omc-app-channel
+              placement:
+                placementRef:
+                  kind: PlacementRule
+                  name: omc-app
+  - objectDefinition:
+      apiVersion: policy.open-cluster-management.io/v1
+      kind: ConfigurationPolicy
+      metadata:
+        name: omc-application
+      spec:
+        remediationAction: enforce
+        severity: High
+        object-templates:
+        - complianceType: musthave
+          objectDefinition:
+            apiVersion: app.k8s.io/v1beta1
+            kind: Application
+            metadata:
+              name: omc-app
+              namespace: omc-app
+            spec:
+              componentKinds:
+              - group: apps.open-cluster-management.io
+                kind: Subscription
+              descriptor: {}
+              selector:
+                matchExpressions:
+                - key: app.kubernetes.io/name
+                  operator: In
+                  values:
+                  - omc
