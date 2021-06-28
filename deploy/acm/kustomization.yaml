@@ -3,3 +3,6 @@ kind: Kustomization
 
 resources:
   - namespace.yaml
+  - omc-app-placementrule.yaml
+  - omc-pipeline-placementrule.yaml
+  - omc-pipeline-subscription.yaml
