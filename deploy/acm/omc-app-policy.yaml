@@ -85,7 +85,7 @@ spec:
               name: omc-app
               namespace: omc-app
               labels:
-                app.kubernetes.io/name: omc-app
+                app.kubernetes.io/name: omc
               annotations:
                   apps.open-cluster-management.io/git-branch: main
                   apps.open-cluster-management.io/github-path: deploy/acm-app
