@@ -46,7 +46,12 @@ spec:
               clusterConditions:
               - status: "True"
                 type: ManagedClusterConditionAvailable
-              clusterSelector: {}
+              clusterSelector:
+                matchExpressions:
+                - key: omc-app
+                  operator: In
+                  values:
+                  - deploy
   - objectDefinition:
       apiVersion: policy.open-cluster-management.io/v1
       kind: ConfigurationPolicy
