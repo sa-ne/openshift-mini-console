@@ -68,6 +68,8 @@ spec:
             metadata:
               name: omc-app-channel
               namespace: omc-app
+              labels:
+                app.kubernetes.io/name: omc-pipeline
             spec:
               type: GitHub
               pathname: https://github.com/sa-ne/openshift-mini-console.git
@@ -87,6 +89,8 @@ spec:
             metadata:
               name: omc-pipeline
               namespace: omc-app
+              labels:
+                app.kubernetes.io/name: omc-pipeline
               annotations:
                   apps.open-cluster-management.io/git-branch: main
                   apps.open-cluster-management.io/github-path: deploy/tekton
@@ -120,7 +124,7 @@ spec:
               descriptor: {}
               selector:
                 matchExpressions:
-                - key: name
+                - key: app.kubernetes.io/name
                   operator: In
                   values:
                   - omc-pipeline
