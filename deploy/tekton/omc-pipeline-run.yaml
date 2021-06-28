@@ -2,6 +2,8 @@ apiVersion: tekton.dev/v1beta1
 kind: PipelineRun
 metadata:
   generateName: pipelinerun-openshift-mini-console-
+  name: omc-pipeline-run
+  namespace: omc-app
 spec:
   serviceAccountName: pipeline
   pipelineRef:

@@ -23,7 +23,7 @@ spec:
     - name: url
       value: https://github.com/sa-ne/openshift-mini-console.git
     - name: revision
-      value: master
+      value: main
   - name: build-image
     taskRef:
       name: buildah
