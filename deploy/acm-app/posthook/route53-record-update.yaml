@@ -2,7 +2,7 @@ apiVersion: tower.ansible.com/v1alpha1
 kind: AnsibleJob
 metadata:
   name: route53-record-update
-  namespace: omc-app
+  namespace: ansible-resource-operator
   labels:
     app.kubernetes.io/name: omc-app
 spec:
