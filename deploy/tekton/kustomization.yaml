@@ -3,6 +3,7 @@ kind: Kustomization
 
 resources:
   - namespace.yaml
+  - unauthenticated-pull-rolebinding.yaml
   - shared-workspace-pvc.yaml
   - omc-imagestream.yaml
   - omc-pipeline.yaml
