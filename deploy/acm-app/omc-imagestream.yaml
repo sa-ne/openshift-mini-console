@@ -15,4 +15,4 @@ spec:
       insecure: true
     name: latest
     referencePolicy:
-      type: Source
+      type: Local
