@@ -1,4 +1,5 @@
 import os
+import socket
 from flask import Flask, render_template
 from kubernetes import client, config
 
@@ -55,8 +56,18 @@ def home():
     version = clusterversion_version(),
     channel = clusterversion_channel(),
     clusterid = clusterversion_clusterid(),
-    consoleroute = console_route()
+    consoleroute = console_route(),
+    pod_hostname = pod_hostname(),
+    pod_ipaddress = pod_ipaddress()
   )
+
+@app.route("/pod/hostname")
+def pod_hostname():
+  return socket.gethostname()
+
+@app.route("/pod/ipaddress")
+def pod_ipaddress():
+  return socket.gethostbyname(pod_hostname())
 
 @app.route("/infrastructure/name")
 def infrastructure_name():
