@@ -3,16 +3,4 @@ kind: ImageStream
 metadata:
   name: openshift-mini-console
   namespace: omc-app
-spec:
-  lookupPolicy:
-    local: false
-  tags:
-  - annotations: null
-    from:
-      kind: DockerImage
-      name: default-route-openshift-image-registry.apps.dev.rhpds.aws.uc2.io/omc-app/openshift-mini-console:latest
-    importPolicy:
-      insecure: true
-    name: latest
-    referencePolicy:
-      type: Local
+spec: {}
