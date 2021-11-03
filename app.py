@@ -17,6 +17,13 @@ s3_client = None
 cluster_list = []
 create_object = True
 selected_cluster = ""
+omc_config_secret = None
+endpoint = ""
+region = ""
+bucket_name = ""
+access_key = ""
+secret_key = ""
+namespace = ""
 
 if "KUBECONFIG" in os.environ:
     config.load_kube_config()
@@ -37,11 +44,11 @@ if os.getenv("IN_CLUSTER") is not None:
     except ApiException as e:
         print("Exception when calling CoreV1Api->read_namespaced_secret: %s\n" % e)
 
-    endpoint = b64decode(omc_config_secret.data["endpoint"])
-    region = b64decode(omc_config_secret.data["region"])
-    bucket_name = b64decode(omc_config_secret.data["bucket_name"])
-    access_key = b64decode(omc_config_secret.data["access_key"])
-    secret_key = b64decode(omc_config_secret.data["secret_key"])
+    endpoint = b64decode(omc_config_secret.data["endpoint"]).decode("utf-8")
+    region = b64decode(omc_config_secret.data["region"]).decode("utf-8")
+    bucket_name = b64decode(omc_config_secret.data["bucket_name"]).decode("utf-8")
+    access_key = b64decode(omc_config_secret.data["access_key"]).decode("utf-8")
+    secret_key = b64decode(omc_config_secret.data["secret_key"]).decode("utf-8")
 else:
     endpoint = os.environ.get('endpoint', None)
     region = os.environ.get('region', None)

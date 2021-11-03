@@ -9,5 +9,7 @@ resources:
   - omc-route.yaml
   - omc-sa-clusterrole.yaml
   - omc-sa-clusterrolebinding.yaml
+  - omc-sa-role.yaml
+  - omc-sa-rolebinding.yaml
   - omc-sa.yaml
   - omc-service.yaml
