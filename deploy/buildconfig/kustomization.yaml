@@ -4,6 +4,7 @@ kind: Kustomization
 resources:
   - namespace.yaml
   - omc-buildconfig.yaml
+  - omc-config-sealed-secret.yaml
   - omc-deployment.yaml
   - omc-imagestream.yaml
   - omc-route.yaml
