@@ -81,10 +81,41 @@
   </style>
 </head>
 <body>
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+  <script>window.jQuery || document.write('<script src="{{ url_for('static', filename='jquery.js') }}">\x3C/script>')</script>
+  <script>
+        function get_selected()
+        {
+          var select_obj = document.getElementById("cluster_name");
+          var select_value = select_obj.value    
+          console.log(select_value)
+            $.ajax({
+                url:"/",
+                method:"POST",
+                data:{cluster_name:select_value},
+                success:function(html_page)
+                { 
+                  console.log("Recieved Page Update")
+                  $("html").empty();
+                  $("html").append(html_page);
+                }
+            })
+        }    
+    </script>
   <div class="container">
     <div class="container-content">
       <div class="header">
         <div style="font-weight: bold">OpenShift Mini Console</div>
+        <select name="cluster_name" id="cluster_name" onchange="get_selected()">
+          <div>Select Cluster</div>
+          {% for cluster in cluster_list %}
+             {% if name == cluster %}
+             <option value="{{cluster}}" selected>{{cluster}}</option>';
+             {% else %}
+             <option value="{{cluster}}">{{cluster}}</option>'; 
+             {% endif %}   
+          {% endfor %}
+        </select>
       </div>
       <div class="column">
         <div class="tile tile-left">
