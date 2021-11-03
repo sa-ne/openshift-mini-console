@@ -92,7 +92,7 @@ spec:
               labels:
                 app.kubernetes.io/name: omc-pipeline
               annotations:
-                  apps.open-cluster-management.io/git-branch: main
+                  apps.open-cluster-management.io/git-branch: v1.0
                   apps.open-cluster-management.io/github-path: deploy/tekton
                   apps.open-cluster-management.io/reconcile-option: merge
             spec:

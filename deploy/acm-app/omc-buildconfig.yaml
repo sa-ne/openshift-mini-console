@@ -30,4 +30,4 @@ spec:
   output:
     to:
       kind: ImageStreamTag
-      name: openshift-mini-console:latest
+      name: openshift-mini-console:v1.0
