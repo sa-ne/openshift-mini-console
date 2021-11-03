@@ -23,6 +23,9 @@ spec:
       serviceAccountName: openshift-mini-console-sa
       containers:
       - image: " "
+        env:
+          - name: IN_CLUSTER
+            value: "yes"
         name: openshift-mini-console
         ports:
         - containerPort: 5000

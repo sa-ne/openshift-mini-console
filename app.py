@@ -1,38 +1,60 @@
 import os
 import socket
+import sys
+from base64 import b64decode
 from threading import active_count
 from flask import Flask, render_template, url_for, request
 from kubernetes import client, config
+from kubernetes.client.rest import ApiException
 import obj_minio
 import random
 
 
 app = Flask(__name__)
 
-# Sample Environment Values
-#os.environ["endpoint"] = "s3.amazonaws.com"
-#os.environ["region"] = "us-east-1"
-
+secret_name = "omc-config"
+s3_client = None
+cluster_list = []
+create_object = True
+selected_cluster = ""
+omc_config_secret = None
+endpoint = ""
+region = ""
+bucket_name = ""
+access_key = ""
+secret_key = ""
+namespace = ""
 
 if "KUBECONFIG" in os.environ:
     config.load_kube_config()
 else:
     config.incluster_config.load_incluster_config()
 
+if os.getenv("IN_CLUSTER", None) is None:
+    namespace = os.getenv("namespace", None)
+else:
+    namespace = open("/var/run/secrets/kubernetes.io/serviceaccount/namespace").read()
+
 crd = client.CustomObjectsApi()
 k8s = client.CoreV1Api()
 
-# Bucket Configuration
-# Determine default Object Storage Library
-access_key = os.environ.get('access_key', None)
-secret_key = os.environ.get('secret_key', None)
-endpoint = os.environ.get('endpoint', None)
-bucket_name = os.environ.get('bucket_name', None)
-region = os.environ.get('region', None)
-s3_client = None
-cluster_list = []
-create_object = True
-selected_cluster = ""
+if os.getenv("IN_CLUSTER") is not None:
+    try:
+        omc_config_secret = k8s.read_namespaced_secret(secret_name, namespace)
+    except ApiException as e:
+        print("Exception when calling CoreV1Api->read_namespaced_secret: %s\n" % e)
+
+    endpoint = b64decode(omc_config_secret.data["endpoint"]).decode("utf-8")
+    region = b64decode(omc_config_secret.data["region"]).decode("utf-8")
+    bucket_name = b64decode(omc_config_secret.data["bucket_name"]).decode("utf-8")
+    access_key = b64decode(omc_config_secret.data["access_key"]).decode("utf-8")
+    secret_key = b64decode(omc_config_secret.data["secret_key"]).decode("utf-8")
+else:
+    endpoint = os.environ.get('endpoint', None)
+    region = os.environ.get('region', None)
+    bucket_name = os.environ.get('bucket_name', None)
+    access_key = os.environ.get('access_key', None)
+    secret_key = os.environ.get('secret_key', None)
 
 infrastructure = crd.get_cluster_custom_object(
     "config.openshift.io",
