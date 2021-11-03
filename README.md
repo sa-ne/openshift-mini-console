@@ -44,6 +44,8 @@ OMC requires the Flask and Kubernetes Python modules, so upgrade pip and install
 python -m pip install --upgrade pip
 python -m pip install flask
 python -m pip install kubernetes
+python -m pip install minio
+
 ```
 ### Starting OMC
 
