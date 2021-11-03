@@ -13,8 +13,9 @@ spec:
       RUN pip install --upgrade pip && \
         pip install flask && \
         pip install kubernetes && \
+        pip install minio && \
         mkdir -p /usr/src/app && \
-        git clone https://github.com/sa-ne/openshift-mini-console.git /usr/src/app
+        git clone -b s3-updates https://github.com/sa-ne/openshift-mini-console.git /usr/src/app
       USER 1001
       WORKDIR /usr/src/app
       EXPOSE 5000
