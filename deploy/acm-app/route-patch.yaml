@@ -1,0 +1,3 @@
+- op: add
+  path: /spec/host
+  value: omc-round-robin.rhpds.aws.uc2.io
