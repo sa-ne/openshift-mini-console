@@ -9,7 +9,6 @@ from kubernetes.client.rest import ApiException
 import obj_minio
 import random
 
-
 app = Flask(__name__)
 
 secret_name = "omc-config"
@@ -31,30 +30,24 @@ else:
     config.incluster_config.load_incluster_config()
 
 if os.getenv("IN_CLUSTER", None) is None:
-    namespace = os.getenv("namespace", None)
+    namespace = os.getenv("namespace", "omc-app")
 else:
     namespace = open("/var/run/secrets/kubernetes.io/serviceaccount/namespace").read()
 
 crd = client.CustomObjectsApi()
 k8s = client.CoreV1Api()
 
-if os.getenv("IN_CLUSTER") is not None:
-    try:
-        omc_config_secret = k8s.read_namespaced_secret(secret_name, namespace)
-    except ApiException as e:
-        print("Exception when calling CoreV1Api->read_namespaced_secret: %s\n" % e)
+try:
+    omc_config_secret = k8s.read_namespaced_secret(secret_name, namespace)
+except ApiException as e:
+    print("Exception when calling CoreV1Api->read_namespaced_secret: %s\n" % e)
 
-    endpoint = b64decode(omc_config_secret.data["endpoint"]).decode("utf-8")
-    region = b64decode(omc_config_secret.data["region"]).decode("utf-8")
-    bucket_name = b64decode(omc_config_secret.data["bucket_name"]).decode("utf-8")
-    access_key = b64decode(omc_config_secret.data["access_key"]).decode("utf-8")
-    secret_key = b64decode(omc_config_secret.data["secret_key"]).decode("utf-8")
-else:
-    endpoint = os.environ.get('endpoint', None)
-    region = os.environ.get('region', None)
-    bucket_name = os.environ.get('bucket_name', None)
-    access_key = os.environ.get('access_key', None)
-    secret_key = os.environ.get('secret_key', None)
+endpoint = b64decode(omc_config_secret.data["endpoint"]).decode("utf-8")
+region = b64decode(omc_config_secret.data["region"]).decode("utf-8")
+bucket_name = b64decode(omc_config_secret.data["bucket_name"]).decode("utf-8")
+access_key = b64decode(omc_config_secret.data["access_key"]).decode("utf-8")
+secret_key = b64decode(omc_config_secret.data["secret_key"]).decode("utf-8")
+
 
 infrastructure = crd.get_cluster_custom_object(
     "config.openshift.io",
@@ -240,7 +233,10 @@ def infrastructure_region():
     platform_status = infrastructure["status"]["platformStatus"]
 
     if infrastructure_platform().lower() in platform_status:
-        return platform_status[infrastructure_platform().lower()]["region"]
+        if hasattr(platform_status[infrastructure_platform().lower()], 'region'):
+            return platform_status[infrastructure_platform().lower()]["region"]
+        else:
+            return "n/a"
     else:
         return "n/a"
 
