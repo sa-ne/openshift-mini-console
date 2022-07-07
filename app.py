@@ -275,7 +275,10 @@ def clusterversion_version():
 
 @app.route("/clusterversion/channel")
 def clusterversion_channel():
-    return clusterversion["spec"]["channel"]
+    if hasattr(clusterversion["spec"], 'channel'):
+        return clusterversion["spec"]["channel"]
+
+    return "The update channel has not been configured."
 
 
 @app.route("/clusterversion/id")
