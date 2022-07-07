@@ -79,12 +79,15 @@ def infrastructure_platform():
 
 @app.route("/infrastructure/region")
 def infrastructure_region():
-  platform_status = infrastructure["status"]["platformStatus"]
+    platform_status = infrastructure["status"]["platformStatus"]
 
-  if infrastructure_platform().lower() in platform_status:
-    return platform_status[infrastructure_platform().lower()]["region"]
-  else:
-    return "n/a"
+    if infrastructure_platform().lower() in platform_status:
+        if hasattr(platform_status[infrastructure_platform().lower()], 'region'):
+            return platform_status[infrastructure_platform().lower()]["region"]
+        else:
+            return "n/a"
+    else:
+        return "n/a"
 
 @app.route("/machinesets")
 def machinesets_list():
