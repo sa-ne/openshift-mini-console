@@ -2,7 +2,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   annotations:
-    image.openshift.io/triggers: '[{"from":{"kind":"ImageStreamTag","name":"openshift-mini-console:v1.0","namespace":"omc-app"},"fieldPath":"spec.template.spec.containers[?(@.name==\"openshift-mini-console\")].image"}]'
+    image.openshift.io/triggers: '[{"from":{"kind":"ImageStreamTag","name":"openshift-mini-console:v1.1","namespace":"omc-app"},"fieldPath":"spec.template.spec.containers[?(@.name==\"openshift-mini-console\")].image"}]'
   labels:
     app: openshift-mini-console
     app.kubernetes.io/component: openshift-mini-console

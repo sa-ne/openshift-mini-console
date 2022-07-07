@@ -14,7 +14,7 @@ spec:
         pip install flask && \
         pip install kubernetes && \
         mkdir -p /usr/src/app && \
-        git clone -b v1.0 https://github.com/sa-ne/openshift-mini-console.git /usr/src/app
+        git clone -b v1.1 https://github.com/sa-ne/openshift-mini-console.git /usr/src/app
       USER 1001
       WORKDIR /usr/src/app
       EXPOSE 5000
@@ -30,4 +30,4 @@ spec:
   output:
     to:
       kind: ImageStreamTag
-      name: openshift-mini-console:v1.0
+      name: openshift-mini-console:v1.1
