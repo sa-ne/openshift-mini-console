@@ -1,2 +1,5 @@
 env/
+omc-venv/
+ansible/collections/ansible_collections/
+local/
 __pycache__/

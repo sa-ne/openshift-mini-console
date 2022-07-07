@@ -1,0 +1,30 @@
+- name: Query Cluster Infrastructure Resource
+  kubernetes.core.k8s_info:
+    api_version: config.openshift.io/v1
+    kind: Infrastructure
+    name: cluster
+  register: infrastructure_results
+
+- name: Set Infrastructure Platform Fact
+  ansible.builtin.set_fact:
+    infrastructure_platform: "{{ infrastructure_results.resources[0].status.platform | lower }}"
+
+- name: Query Ingress Controller router-default Service
+  kubernetes.core.k8s_info:
+    api_version: v1
+    kind: Service
+    name: router-default
+    namespace: openshift-ingress
+  register: service_results
+
+- name: Set List of IPs (ingress[].ip)
+  ansible.builtin.set_fact:
+    pool_ips: |
+      {{
+        service_results.resources[0].status.loadBalancer.ingress |
+        selectattr('ip', 'defined') |
+        community.general.json_query('[].ip')
+      }}
+  when:
+    - service_results.resources[0].status.loadBalancer.ingress |
+      selectattr('ip', 'defined') | list | count > 0

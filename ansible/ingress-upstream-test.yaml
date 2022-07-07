@@ -1,0 +1,9 @@
+- name: Test ingress-upstream Role
+  gather_facts: no
+  hosts: localhost
+  tasks:
+    - ansible.builtin.include_role:
+        role: ingress-upstream
+
+    - ansible.builtin.debug:
+        var: pool_ips
