@@ -2,7 +2,7 @@ apiVersion: tower.ansible.com/v1alpha1
 kind: AnsibleJob
 metadata:
   name: omc-record-update
-  namespace: omc-app
+  namespace: uc2-gitops
   labels:
     app.kubernetes.io/name: omc-app
 spec:
