@@ -1,4 +1,4 @@
-ansible/collections/ansible_collections/
+collections/ansible_collections/
 env/
 local/
 omc-venv/
