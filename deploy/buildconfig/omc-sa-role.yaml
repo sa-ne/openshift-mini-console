@@ -1,6 +1,10 @@
 apiVersion: rbac.authorization.k8s.io/v1
 kind: Role
 metadata:
+  labels:
+    app: omc-app
+    app.kubernetes.io/component: omc-app
+    app.kubernetes.io/instance: omc-app
   name: openshift-mini-console-sa-role
   namespace: omc-app
 rules:

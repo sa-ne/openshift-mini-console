@@ -1,6 +1,10 @@
 apiVersion: image.openshift.io/v1
 kind: ImageStream
 metadata:
+  labels:
+    app: omc-app
+    app.kubernetes.io/component: omc-app
+    app.kubernetes.io/instance: omc-app
   name: openshift-mini-console
   namespace: omc-app
 spec: {}

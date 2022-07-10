@@ -1,5 +1,10 @@
 apiVersion: v1
 kind: ServiceAccount
 metadata:
+  labels:
+    app: omc-app
+    app.kubernetes.io/component: omc-app
+    app.kubernetes.io/instance: omc-app
   name: openshift-mini-console-sa
   namespace: omc-app
+spec: {}
