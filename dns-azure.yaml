@@ -31,6 +31,7 @@
 
     - name: Update External Azure DNS Record
       azure.azcollection.azure_rm_dnsrecordset:
+        cloud_environment: AzureCloud
         records: "{{ azure_dns_records }}"
         record_type: A
         relative_name: "{{ omc_application_dns_label }}"
