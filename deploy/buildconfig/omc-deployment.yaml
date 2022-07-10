@@ -13,12 +13,14 @@ spec:
   replicas: 2
   selector:
     matchLabels:
-      deployment: openshift-mini-console
+      app: omc-app
+      deployment: omc-app
   strategy: {}
   template:
     metadata:
       labels:
-        deployment: openshift-mini-console
+        app: omc-app
+        deployment: omc-app
     spec:
       serviceAccountName: openshift-mini-console-sa
       containers:
