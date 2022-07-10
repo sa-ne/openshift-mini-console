@@ -1,0 +1,32 @@
+- name: Query Target ManagedCluster
+  kubernetes.core.k8s_info:
+    api_version: cluster.open-cluster-management.io/v1
+    kind: ManagedCluster
+    name: "{{ target_cluster }}"
+    validate_certs: false
+  failed_when:
+    - (managedcluster_results.resources | count) != 1
+  register: managedcluster_results
+
+- name: Set Cluster Claims Fact
+  ansible.builtin.set_fact:
+    cluster_claims: "{{ managedcluster_results.resources[0].status.clusterClaims }}"
+
+- name: Set List of Keys for managed_cluster_info Fact
+  ansible.builtin.set_fact:
+    cluster_claim_ids: "{{ cluster_claims | json_query('[].name') }}"
+
+- name: Reset managed_cluster_info to Support Iterative Calls
+  ansible.builtin.set_fact:
+    managed_cluster_info: {}
+
+- name: Set managed_cluster_info Fact
+  ansible.builtin.set_fact:
+    managed_cluster_info: |
+      {{
+        managed_cluster_info |
+          combine({
+            item: cluster_claims | selectattr('name', 'equalto', item) | json_query('[0].value')
+          })
+      }}
+  loop: "{{ cluster_claim_ids }}"

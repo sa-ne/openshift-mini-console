@@ -1,0 +1,39 @@
+- name: Test for ManagedCluster Info
+  gather_facts: false
+  hosts: localhost
+  vars:
+    a_record_ips: []
+  tasks:
+    - name: Assert target_clusters is Defined
+      ansible.builtin.assert:
+        that:
+          - azure_dns_resource_group is defined
+          - azure_dns_zone is defined
+          - omc_application_dns_label is defined
+          - target_clusters is defined
+
+    - name: Gather Managed Cluster IPs
+      ansible.builtin.include_tasks:
+        file: managed-cluster-ips.yaml
+      loop: "{{ target_clusters }}"
+      loop_control:
+        loop_var: target_cluster
+    
+    - name: Set Azure DNS Records Fact
+      ansible.builtin.set_fact: 
+        azure_dns_records: |
+          {{
+            azure_dns_records | default([]) + [{
+              'entry': item
+            }]
+          }}
+      loop: "{{ a_record_ips }}"
+
+    - name: Update External Azure DNS Record
+      azure.azcollection.azure_rm_dnsrecordset:
+        records: "{{ azure_dns_records }}"
+        record_type: A
+        relative_name: "{{ omc_application_dns_label }}"
+        resource_group: "{{ azure_dns_resource_group }}"
+        time_to_live: 30
+        zone_name: "{{ azure_dns_zone }}"

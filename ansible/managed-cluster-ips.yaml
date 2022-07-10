@@ -1,0 +1,16 @@
+- name: Get Cluster ({{ target_cluster }}) Info
+  ansible.builtin.include_role:
+    name: managed-cluster-info
+
+- name: Guess Load Balancer IP for Default Ingress Controller on {{ target_cluster }}
+  ansible.builtin.set_fact:
+    managed_cluster_ips: |-
+      {{
+        lookup('community.general.dig', 
+          managed_cluster_info['consoleurl.cluster.open-cluster-management.io'] | replace('https://', '')
+        )
+      }}
+
+- name: Append IP to List
+  ansible.builtin.set_fact:
+    a_record_ips: "{{ a_record_ips + [ managed_cluster_ips ] }}"
