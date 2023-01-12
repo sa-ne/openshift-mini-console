@@ -2,9 +2,9 @@ apiVersion: tower.ansible.com/v1alpha1
 kind: AnsibleJob
 metadata:
   name: omc-record-update
-  namespace: uc2-gitops
+  namespace: umbrella-gitops
   labels:
     app.kubernetes.io/name: omc-app
 spec:
-  tower_auth_secret: aap-credentials
+  tower_auth_secret: aap
   job_template_name: omc-record-update
