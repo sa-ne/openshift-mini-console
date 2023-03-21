@@ -3,8 +3,8 @@ USER 0
 RUN pip install --upgrade pip && \
   pip install flask && \
   pip install kubernetes && \
-  mkdir -p /usr/src/app && \
-  git clone https://github.com/sa-ne/openshift-mini-console.git /usr/src/app
+  pip install prometheus-flask-exporter
+COPY /workspace/output /usr/src/app
 USER 1001
 WORKDIR /usr/src/app
 EXPOSE 5000

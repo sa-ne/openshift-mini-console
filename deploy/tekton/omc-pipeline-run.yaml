@@ -20,3 +20,5 @@ spec:
   params:
   - name: dockerfile-path
     value: "deploy/tekton/Dockerfile"
+  - name: git-revision
+    value: "v1.1"

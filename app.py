@@ -1,9 +1,11 @@
 import os
 import socket
-from flask import Flask, render_template
+from flask import Flask, render_template, request
 from kubernetes import client, config
+from prometheus_flask_exporter import PrometheusMetrics
 
 app = Flask(__name__)
+metrics = PrometheusMetrics(app)
 
 if "KUBECONFIG" in os.environ:
   config.load_kube_config()

@@ -11,6 +11,10 @@ spec:
     type: string
     description: The path to your Dockerfile
     default: "Dockerfile"
+  - name: git-revision
+    type: string
+    description: Branch of git repository
+    default: v1.1
   tasks:
   - name: fetch-repository
     taskRef:
@@ -23,7 +27,7 @@ spec:
     - name: url
       value: https://github.com/sa-ne/openshift-mini-console.git
     - name: revision
-      value: v1.0
+      value: "$(params.git-revision)"
   - name: build-image
     taskRef:
       name: buildah
