@@ -4,6 +4,7 @@ RUN pip install --upgrade pip && \
   pip install flask && \
   pip install kubernetes && \
   pip install prometheus-flask-exporter
+RUN ls --recursive /workspace
 COPY /workspace/output /usr/src/app
 USER 1001
 WORKDIR /usr/src/app
