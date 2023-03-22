@@ -44,3 +44,15 @@ spec:
       value: "$(params.dockerfile-path)"
     - name: IMAGE
       value: image-registry.openshift-image-registry.svc:5000/omc-app/openshift-mini-console
+  - name: kustomize-deploy
+    taskRef:
+      name: kustomize-deploy
+      kind: Task
+    runAfter:
+    - build-image
+    workspaces:
+    - name: source
+      workspace: shared-workspace
+    params:
+    - name: manifest_dir
+      value: "deploy/kustomize"
