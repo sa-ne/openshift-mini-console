@@ -74,4 +74,3 @@ The `deploy/buildconfig` directory contains all the manifests required to build 
 oc apply -k deploy/buildconfig
 ```
 
-
