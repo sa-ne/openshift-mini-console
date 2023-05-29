@@ -82,7 +82,8 @@ def infrastructure_region():
   platform_status = infrastructure["status"]["platformStatus"]
 
   if infrastructure_platform().lower() in platform_status:
-    return platform_status[infrastructure_platform().lower()]["region"]
+    if "region" in platform_status[infrastructure_platform().lower()].keys():
+      return platform_status[infrastructure_platform().lower()]["region"]
   else:
     return "n/a"
 
@@ -105,9 +106,9 @@ def nodes_list():
 
     for label in node.metadata.labels:
       if "node-role.kubernetes.io/" in label:
-        ret += label.split("/")[1]
+        ret += label.split("/")[1] + ","
     
-    ret += ")"
+    ret = ret[:-1] + ")"
   
   return "n/a" if (len(ret) == 0) else ret[1:]
 
